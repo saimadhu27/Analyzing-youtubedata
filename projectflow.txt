@@ -1,0 +1,36 @@
+Step by step guide to get your YouTube API key
+🏁 Step 1: Set Up Google Cloud Project
+1.Go to Google Cloud Console.
+2.Log in with your Google account.
+3.Click on the Select a project dropdown → New Project.
+4.Name your project, youtube-analytics
+5.Click Create.
+
+🔓 Step 2: Enable YouTube Data API v3
+1.In the search bar at the top, type YouTube Data API v3.
+Click on it → Enable.
+This will allow your project to access YouTube data.
+
+🔑 Step 3: Get Your API Key
+1.Go to Credentials → Create Credentials → API Key.
+Google will generate a unique API key for you.
+Copy the API key — you will need this for your Python script.
+
+🔒 Step 4: Secure Your API Key (Optional)
+To avoid unauthorized use:
+Click on your API Key → Edit.
+Set Application Restrictions to IP Address or HTTP Referrers.
+Under API Restrictions, select YouTube Data API v3.
+
+✅ YouTube API Setup is Done!
+Now, let's fetch data using Python. 🚀
+
+----------------------------------------------------------------------
+
+Write a python script to extract data using you tube API
+1. write code to establish the api connection
+2. do data modeling - like what tables and columns we need and the relationships between them.
+3. write code to extract the data accordingly using the api connection
+
+okaoka video ki likes, views, comments, shares, published date, video title, URL,
+channel ki subscribers, total number of videos,  channel information

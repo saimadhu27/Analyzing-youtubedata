@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
+.env
+env/
+
+# MongoDB dump files
+*.bson
+
+# Logs and local data
+logs/
+*.log
+*.sqlite3
+*.db
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# IDE settings
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Configurations and secrets
+.env
+config.yaml
+
+# Compiled C extensions
+*.dll
+*.dylib
+*.pyd
+
+# Test coverage reports
+htmlcov/
+coverage.xml
+.cache
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
