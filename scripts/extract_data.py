@@ -82,8 +82,8 @@ class YouTubeDataModel:
             
         # Store in DataFrame and save to Parquet
         self.channel_data = pd.DataFrame(all_channels)
-        filename = f"{self.today}_channel_data.parquet"
-        self.channel_data.to_parquet(os.path.join(CHANNELS_DIR, filename), index = False)
+        filename = f"{self.today}_channel_data.csv"
+        self.channel_data.to_csv(os.path.join(CHANNELS_DIR, filename), index = False)
         logging.info(f"Channel data saved to {filename}")
         
     def get_all_playlists(self):
@@ -124,8 +124,8 @@ class YouTubeDataModel:
                 raise MyException(e, sys)
         # Store in DataFrame and save to Parquet
         self.playlist_data = pd.DataFrame(playlist_records)
-        filename = f"{self.today}_playlist_data.parquet"
-        self.playlist_data.to_parquet(os.path.join(PLAYLISTS_DIR, filename), index = False) 
+        filename = f"{self.today}_playlist_data.csv"
+        self.playlist_data.to_csv(os.path.join(PLAYLISTS_DIR, filename), index = False) 
         logging.info(f"Playlist data saved to {filename}")       
         
     def get_videos_from_playlist(self):
@@ -176,7 +176,6 @@ class YouTubeDataModel:
                             'published_date': video['snippet']['publishedAt'],
                             'views': video['statistics'].get('viewCount', 0),
                             'likes': video['statistics'].get('likeCount', 0),
-                            'dislikes': video['statistics'].get('dislikeCount', 0),
                             'comments': video['statistics'].get('commentCount', 0),
                             'playlist_id': playlist_id
                         })
@@ -187,8 +186,9 @@ class YouTubeDataModel:
             
         # Store in DataFrame and save to Parquet
         self.video_data = pd.DataFrame(all_videos)
-        filename = f"{self.today}_video_data.parquet"
-        self.video_data.to_parquet(os.path.join(VIDEOS_DIR, filename), index = False)
+        filename = f"{self.today}_video_data.csv"
+        self.video_data.to_csv(os.path.join(VIDEOS_DIR, filename), index = False)
+        #self.video_data.to_parquet(os.path.join(VIDEOS_DIR, filename), index = False)
         logging.info(f"Video data saved to {filename}")
                 
 # def get_channel_info(channel_id):

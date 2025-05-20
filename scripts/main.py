@@ -7,8 +7,11 @@ api = google_api.get_service()
 
 # List of multiple channel_ids
 channel_ids = [
-    "UCX6OQ3DkcsbYNE6H8uQQuVA" #Mr. Beast
-    
+    "UCX6OQ3DkcsbYNE6H8uQQuVA", #Mr. Beast
+    "UC4-79UOlP48-QNGgCko5p2g", #Mr. Beast2
+    "UCbCmjCuTUZos6Inko4u57UQ", #cocomelon
+    "UCk8GzjMOrta8yxDcKfylJYw", #kids diana show
+    "UCRijo3ddMTht_IHyNSNXpNQ" #dude perfect
 ]
 
 # Initialize the Youtube data model
