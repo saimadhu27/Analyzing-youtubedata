@@ -28,9 +28,10 @@ Now, let's fetch data using Python. 🚀
 ----------------------------------------------------------------------
 
 Write a python script to extract data using you tube API
-1. write code to establish the api connection
+1. write code to establish the api connection.
 2. do data modeling - like what tables and columns we need and the relationships between them.
 3. write code to fetch the channel, playlist and video stats for each channel that we mention and store the files in the data folder.
+4. create a main.py script that runs the data extraction script.
 
 okaoka video ki likes, views, comments, shares, published date, video title, URL,
 channel ki subscribers, total number of videos,  channel information

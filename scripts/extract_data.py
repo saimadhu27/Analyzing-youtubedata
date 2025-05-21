@@ -32,7 +32,7 @@ class YouTubeDataModel:
         """Initializes the YouTubeData object.
 
         Args:
-            api_client (_type_): Google API client object initialized for YouTube.
+            api_client (config): Google API client object initialized for YouTube.
             channel_id (str): The unique ID of the YouTube channel
         """
         self.api_client = api_client
@@ -48,7 +48,7 @@ class YouTubeDataModel:
         """Fetches the main statistics of the YouTube Channel.
 
         Returns:
-            parquet : a parquet file that contains basic channel information.
+            csv : a csv file that contains basic channel information in the data folder.
         """
         all_channels = []
         
@@ -80,7 +80,7 @@ class YouTubeDataModel:
             except Exception as e:
                 raise MyException(e, sys)
             
-        # Store in DataFrame and save to Parquet
+        # Store in DataFrame and save to csv
         self.channel_data = pd.DataFrame(all_channels)
         filename = f"{self.today}_channel_data.csv"
         self.channel_data.to_csv(os.path.join(CHANNELS_DIR, filename), index = False)
@@ -90,7 +90,7 @@ class YouTubeDataModel:
         """Fetches all playlists associated with the channel.
 
         Returns:
-         parquet : returns a parquet file with all playlist ids, playlist name and each playlist video count within a channel.
+         csv : returns a csv file with all playlist ids, playlist name and each playlist video count within a channel in the data folder
         """
         playlist_records = []
         
@@ -122,7 +122,7 @@ class YouTubeDataModel:
 
             except Exception as e:
                 raise MyException(e, sys)
-        # Store in DataFrame and save to Parquet
+        # Store in DataFrame and save to csv
         self.playlist_data = pd.DataFrame(playlist_records)
         filename = f"{self.today}_playlist_data.csv"
         self.playlist_data.to_csv(os.path.join(PLAYLISTS_DIR, filename), index = False) 
@@ -131,7 +131,7 @@ class YouTubeDataModel:
     def get_videos_from_playlist(self):
         """Fetches all videos from each playlist retrieved in the pervious step.
         Returns:
-         parquet : returns a parquet file with all video information for all playlists within that channel.
+        csv : returns a csv file with all video information for all playlists within that channel in the data folder
         """
         all_videos = []
         
@@ -184,26 +184,9 @@ class YouTubeDataModel:
             except Exception as e:
                 raise MyException(e, sys)
             
-        # Store in DataFrame and save to Parquet
+        # Store in DataFrame and save to csv
         self.video_data = pd.DataFrame(all_videos)
         filename = f"{self.today}_video_data.csv"
         self.video_data.to_csv(os.path.join(VIDEOS_DIR, filename), index = False)
-        #self.video_data.to_parquet(os.path.join(VIDEOS_DIR, filename), index = False)
         logging.info(f"Video data saved to {filename}")
                 
-# def get_channel_info(channel_id):
-#     try:
-#         request = youtube.channels().list(
-#             part="snippet,statistics",
-#             id=channel_id
-#         )
-#         response = request.execute()
-#         return response
-#     except Exception as e:
-#         raise MyException(e, sys)
-   
-# # Run the example
-# if __name__ == "__main__":
-#     CHANNEL_ID = "UCYO_jab_esuFRV4b17AJtAw"  # 3Blue1Brown
-#     response = get_channel_stats(CHANNEL_ID)
-#     print(response) 
