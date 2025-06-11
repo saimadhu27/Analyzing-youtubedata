@@ -15,6 +15,7 @@ This will allow your project to access YouTube data.
 1.Go to Credentials → Create Credentials → API Key.
 Google will generate a unique API key for you.
 Copy the API key — you will need this for your Python script.
+Store it in the .env file under your project.
 
 🔒 Step 4: Secure Your API Key (Optional)
 To avoid unauthorized use:
@@ -35,3 +36,37 @@ Write a python script to extract data using you tube API
 
 okaoka video ki likes, views, comments, shares, published date, video title, URL,
 channel ki subscribers, total number of videos,  channel information
+should have added joined date and location in channel data.
+
+1. clean the extracted data
+Steps for loading data into BigQuery
+1. Go to the BigQuery console and under your project named "youtube-analytics-459121"(project-id). click create-dataset and name it "youtube_data(dataset-id)"
+tip: here the project-id is like a project container in your cloud workspace and the dataset-id is like a database and you put tables inside this dataset. so when you want to
+refer to a table you go like <project-id>.<dataset-id>.<table_name>
+2. Go to IAM & Admin, create a new service account and name it.(you have to enable access otherwise you will not have permission to access the bigquery client)
+3. Under that service account assign roles to it such as "BigQuery Data Editor", "BigQuery Job User"
+4. generate a JSON key and download it. 
+5. Store it in your project under /credentials/ and add to .gitignore.
+6. Install Required Libraries
+Install the BigQuery client in your virtual environment:
+pip install google-cloud-bigquery pandas pyarrow
+7.Authenticate Locally
+Before running your script:
+export GOOGLE_APPLICATION_CREDENTIALS="./credentials/gcp_service_account.json"
+Run the above code in your terminal
+8. Write Python Script to Upload data files into BigQuery
+9. Use the Function in Your Pipeline(main.py)
+
+After, the full ETL pipeline is done.
+Just connect the BigQuery to Power BI and make dashboard!! and you're done!!!. 
+Yayy !!! 🥳
+✅ Final Tips
+Task	Tip
+Keep credentials safe	Don’t commit .json to Git — use .env or secret manager
+Automate loading	Wrap the loading in a CLI or cron job
+Monitor failures	Add try/except blocks with logging and error handling
+Clean first, then load	Never load raw API data — always clean/transform first
+
+
+
+

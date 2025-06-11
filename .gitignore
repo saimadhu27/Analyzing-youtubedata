@@ -52,3 +52,7 @@ coverage.xml
 build/
 dist/
 *.egg-info/
+
+# Credentials
+*.json
+credentials/

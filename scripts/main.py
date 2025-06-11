@@ -1,5 +1,8 @@
 from scripts.google_api import GoogleAPI
 from scripts.extract_data import YouTubeDataModel
+from scripts.logger import logging
+from scripts.load_data import *
+from scripts.constants import PROJECT_ID, DATASET_ID
 
 google_api = GoogleAPI()
 
@@ -15,16 +18,32 @@ channel_ids = [
 ]
 
 # Initialize the Youtube data model
-data_extraction = YouTubeDataModel(api_client=api, channel_ids=channel_ids)
+yt_model = YouTubeDataModel(api_client=api, channel_ids=channel_ids)
 
 # === Fetch Data and Save to Files ===
-print("Fetching Channel Data...")
-data_extraction.get_channel_stats()
+# ---------- Extraction process ----------
+logging.info("Fetching Channel Data...")
+yt_model.get_channel_stats()
 
-print("Fetching Playlist Data...")
-data_extraction.get_all_playlists()
+logging.info("Fetching Playlist Data...")
+yt_model.get_all_playlists()
 
-print("Fetching Video Data...")
-data_extraction.get_videos_from_playlist()
+logging.info("Fetching Video Data...")
+yt_model.get_videos_from_playlist()
 
-print("✅ All data fetched and saved successfully.")
+logging.info("✅ All data fetched and saved successfully.")
+
+# ---------- Transformation process ---------
+logging.info("Transformation of data")
+yt_model.video_data = clean_datetime(yt_model.video_data, 'published_date')
+
+logging.info("Cleaned and transformed the data")
+
+# ----------- Loading process -------------
+logging.info("Loading the data into BigQuery...")
+#print(yt_model.channel_data.head())
+upload_to_bigquery(yt_model.channel_data, 'channel_data', PROJECT_ID, DATASET_ID)
+upload_to_bigquery(yt_model.playlist_data, 'playlist_data', PROJECT_ID, DATASET_ID)
+upload_to_bigquery(yt_model.video_data, 'video_data', PROJECT_ID, DATASET_ID)
+
+print("🚀 Full YouTube ETL pipeline completed.")

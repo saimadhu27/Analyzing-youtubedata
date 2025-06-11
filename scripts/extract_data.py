@@ -69,7 +69,9 @@ class YouTubeDataModel:
                         'channel_name': item['snippet']['title'],
                         'subscribers': item['statistics'].get('subscriberCount', 0),
                         'total_views': item['statistics'].get('viewCount', 0),
-                        'video_count': item['statistics'].get('videoCount', 0)
+                        'video_count': item['statistics'].get('videoCount', 0),
+                        'joined_date': item['snippet'].get('publishedAt'),   # This is the "channel creation date"
+                        'country': item['snippet'].get('country')
                     })
 
                     logging.info(f"Channel data fetched successfully for {item['snippet']['title']}")
