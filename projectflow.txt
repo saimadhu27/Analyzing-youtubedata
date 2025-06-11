@@ -1,72 +1,107 @@
-Step by step guide to get your YouTube API key
-🏁 Step 1: Set Up Google Cloud Project
-1.Go to Google Cloud Console.
-2.Log in with your Google account.
-3.Click on the Select a project dropdown → New Project.
-4.Name your project, youtube-analytics
-5.Click Create.
+===========================================
+YouTube Data Pipeline – Setup Guide & Workflow
+===========================================
 
-🔓 Step 2: Enable YouTube Data API v3
-1.In the search bar at the top, type YouTube Data API v3.
-Click on it → Enable.
-This will allow your project to access YouTube data.
-
-🔑 Step 3: Get Your API Key
-1.Go to Credentials → Create Credentials → API Key.
-Google will generate a unique API key for you.
-Copy the API key — you will need this for your Python script.
-Store it in the .env file under your project.
-
-🔒 Step 4: Secure Your API Key (Optional)
-To avoid unauthorized use:
-Click on your API Key → Edit.
-Set Application Restrictions to IP Address or HTTP Referrers.
-Under API Restrictions, select YouTube Data API v3.
-
-✅ YouTube API Setup is Done!
-Now, let's fetch data using Python. 🚀
-
-----------------------------------------------------------------------
-
-Write a python script to extract data using you tube API
-1. write code to establish the api connection.
-2. do data modeling - like what tables and columns we need and the relationships between them.
-3. write code to fetch the channel, playlist and video stats for each channel that we mention and store the files in the data folder.
-4. create a main.py script that runs the data extraction script.
-
-okaoka video ki likes, views, comments, shares, published date, video title, URL,
-channel ki subscribers, total number of videos,  channel information
-should have added joined date and location in channel data.
-
-1. clean the extracted data
-Steps for loading data into BigQuery
-1. Go to the BigQuery console and under your project named "youtube-analytics-459121"(project-id). click create-dataset and name it "youtube_data(dataset-id)"
-tip: here the project-id is like a project container in your cloud workspace and the dataset-id is like a database and you put tables inside this dataset. so when you want to
-refer to a table you go like <project-id>.<dataset-id>.<table_name>
-2. Go to IAM & Admin, create a new service account and name it.(you have to enable access otherwise you will not have permission to access the bigquery client)
-3. Under that service account assign roles to it such as "BigQuery Data Editor", "BigQuery Job User"
-4. generate a JSON key and download it. 
-5. Store it in your project under /credentials/ and add to .gitignore.
-6. Install Required Libraries
-Install the BigQuery client in your virtual environment:
-pip install google-cloud-bigquery pandas pyarrow
-7.Authenticate Locally
-Before running your script:
-export GOOGLE_APPLICATION_CREDENTIALS="./credentials/gcp_service_account.json"
-Run the above code in your terminal
-8. Write Python Script to Upload data files into BigQuery
-9. Use the Function in Your Pipeline(main.py)
-
-After, the full ETL pipeline is done.
-Just connect the BigQuery to Power BI and make dashboard!! and you're done!!!. 
-Yayy !!! 🥳
-✅ Final Tips
-Task	Tip
-Keep credentials safe	Don’t commit .json to Git — use .env or secret manager
-Automate loading	Wrap the loading in a CLI or cron job
-Monitor failures	Add try/except blocks with logging and error handling
-Clean first, then load	Never load raw API data — always clean/transform first
+This guide walks you through setting up the YouTube Data API, extracting data using Python, cleaning and transforming it, loading it into BigQuery, and building dashboards in Power BI.
 
 
+Step 1: Set Up Google Cloud Project
+-----------------------------------
+1. Go to https://console.cloud.google.com/
+2. Log in with your Google account
+3. Click "Select a project" → New Project
+4. Name your project: youtube-analytics
+5. Click Create
 
 
+Step 2: Enable YouTube Data API v3
+----------------------------------
+1. Use the search bar to find "YouTube Data API v3"
+2. Click on it → Click Enable
+
+
+Step 3: Get Your API Key
+------------------------
+1. Go to "APIs & Services" → "Credentials"
+2. Click "Create Credentials" → "API Key"
+3. Copy the API key and save it to your `.env` file:
+   YOUTUBE_API_KEY=your_key_here
+
+
+Step 4: (Optional) Secure Your API Key
+--------------------------------------
+1. Go to the API Key → Edit
+2. Set "Application Restrictions" (IP or HTTP referrers)
+3. Under "API Restrictions", select YouTube Data API v3
+
+
+Step 5: Extract Data with Python
+--------------------------------
+1. Set up your API connection using the `googleapiclient.discovery` module
+2. Design a data model with 3 tables:
+   - channels: channel_id, name, subscribers, total views, video count, joined date, country
+   - playlists: playlist_id, title, channel_id, item count, published date
+   - videos: video_id, title, views, likes, comments, published date, playlist_id
+3. Write Python code to fetch:
+   - Channel stats
+   - All playlists for each channel
+   - All videos for each playlist
+4. Save the results to CSVs in the `/data` folder:
+   - channel_data.csv
+   - playlist_data.csv
+   - video_data.csv
+5. Create `main.py` to run the entire pipeline
+
+
+Step 6: Clean the Extracted Data
+--------------------------------
+1. Convert published dates to New York timezone
+2. Convert numeric fields (views, likes) to integers
+3. Handle missing/null values
+
+
+Step 7: Load Cleaned Data into BigQuery
+---------------------------------------
+1. Go to BigQuery Console
+2. Under project `youtube-analytics-459121`, click "Create Dataset"
+   - Name: youtube_data
+   tip: here the project-id is like a project container in your cloud workspace and the dataset-id is like a database and you put tables inside this dataset. so when you want to
+   refer to a table you go like <project-id>.<dataset-id>.<table_name>
+3. Go to "IAM & Admin" → "Service Accounts"
+4. Create a new service account (e.g., youtube-etl-bq)
+   - Assign roles: BigQuery Data Editor, BigQuery Job User
+   - Generate a JSON key and download it
+   - Save it in `/credentials/` and add to `.gitignore`
+5. Install necessary libraries:
+   pip install google-cloud-bigquery pandas pyarrow
+6. Authenticate your session:
+   export GOOGLE_APPLICATION_CREDENTIALS="./credentials/gcp_service_account.json"
+7. Write Python code to load the 3 CSVs into BigQuery tables:
+   - youtube_data.channel_data
+   - youtube_data.playlist_data
+   - youtube_data.video_data
+
+
+Step 8: Build Dashboard in Power BI
+-----------------------------------
+1. Open Power BI → Get Data → Google BigQuery
+2. Connect to `youtube_data` dataset
+3. Join tables:
+   - channel_id → playlist_id
+   - playlist_id → video_id
+4. Create dashboards:
+   - Total views per channel
+   - Most liked videos
+   - Monthly upload trends
+
+
+Done!
+-----
+You now have a complete pipeline:
+- API integration
+- Structured data
+- Cleaned and transformed
+- Loaded to BigQuery
+- Ready for Power BI dashboarding
+
+🎉 Happy analyzing!
