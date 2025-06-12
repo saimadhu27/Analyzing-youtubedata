@@ -105,3 +105,12 @@ You now have a complete pipeline:
 - Ready for Power BI dashboarding
 
 🎉 Happy analyzing!
+
+Challenges Faced
+----------------
+- Resolving Python import errors
+- Formatting inconsistent data types in video statistics (likes, views)
+- Timezone conversion issues for published dates (UTC to EST)
+- Google Cloud IAM role configuration and permission errors when uploading to BigQuery
+- BigQuery schema errors during upload due to empty/mismatched field types
+- Missing dependencies like `pandas_gbq` and credential authentication problems
